@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- EDIT: your name and a one-line description. This shows in the browser tab and in Google results. -->
 <title>Nathan Mac Cabe — Projects</title>
 <meta name="description" content="Economist. Small tools, data projects, and things I'm learning.">
 
@@ -39,12 +38,51 @@
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    padding: 0 24px;
+    padding: 0;                       /* CHANGED: padding moved to .wrap so the ticker runs edge to edge */
   }
 
-  .wrap { max-width: var(--measure); margin: 0 auto; }
+  .wrap {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding: 0 24px;                  /* CHANGED: moved here from body */
+  }
 
   a { color: inherit; }
+
+  /* ─── equation ticker ─── */
+
+  .ticker {
+    background: var(--evergreen);     /* swap to var(--ink) for a black bar */
+    color: var(--mint);
+    overflow: hidden;
+    padding: 9px 0;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .ticker-track {
+    display: inline-flex;
+    animation: ticker-scroll 46s linear infinite;
+  }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+
+  .ticker-run { display: inline-flex; align-items: baseline; }
+  .ticker-run span { padding: 0 22px; }
+  .ticker-run span::after {
+    content: "◇";
+    margin-left: 22px;
+    opacity: 0.4;
+  }
+
+  .ticker sup, .ticker sub { font-size: 0.72em; }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 
   /* ─── hero: name and role read as one running sentence ─── */
 
@@ -196,18 +234,62 @@
     .project { grid-template-columns: 1fr; gap: 6px; }
     .project .when { padding-top: 0; }
     .hero { padding: 80px 0 64px; }
+    .ticker { font-size: 0.7rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     * { transition: none !important; }
+    .ticker-track { animation: none; }   /* animations aren't transitions, so this needs saying separately */
   }
 </style>
 </head>
 <body>
+
+<!-- ══ TICKER ══ Decorative, so it's hidden from screen readers.
+     The equation list appears TWICE on purpose — the track slides exactly
+     50% left, so the second copy arrives as the first exits and the loop
+     never shows a gap. If you edit one copy, edit both. -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-run">
+      <span>Y = C + I + G + (X &minus; M)</span>
+      <span>MV = PQ</span>
+      <span>Y = AK<sup>&alpha;</sup>L<sup>1&minus;&alpha;</sup></span>
+      <span>&pi; = &pi;<sup>e</sup> &minus; &beta;(u &minus; u<sub>n</sub>)</span>
+      <span>k&#775; = sf(k) &minus; (n + g + &delta;)k</span>
+      <span>u&prime;(c<sub>t</sub>) = &beta;(1 + r)u&prime;(c<sub>t+1</sub>)</span>
+      <span>V(k) = max{u(c) + &beta;V(k&prime;)}</span>
+      <span>i<sub>t</sub> = r* + &pi;<sub>t</sub> + 0.5(&pi;<sub>t</sub> &minus; &pi;*) + 0.5(y<sub>t</sub> &minus; y&#772;)</span>
+      <span>E<sub>t</sub>[m<sub>t+1</sub>R<sub>t+1</sub>] = 1</span>
+      <span>&epsilon; = (&part;Q/&part;P)(P/Q)</span>
+      <span>MR = MC</span>
+      <span>&Delta;Y/Y = &minus;c(u &minus; u<sub>n</sub>)</span>
+      <span>&Sigma; &beta;<sup>t</sup>u(c<sub>t</sub>)</span>
+      <span>&part;&#8466;/&part;&lambda; = 0</span>
+    </div>
+    <div class="ticker-run">
+      <span>Y = C + I + G + (X &minus; M)</span>
+      <span>MV = PQ</span>
+      <span>Y = AK<sup>&alpha;</sup>L<sup>1&minus;&alpha;</sup></span>
+      <span>&pi; = &pi;<sup>e</sup> &minus; &beta;(u &minus; u<sub>n</sub>)</span>
+      <span>k&#775; = sf(k) &minus; (n + g + &delta;)k</span>
+      <span>u&prime;(c<sub>t</sub>) = &beta;(1 + r)u&prime;(c<sub>t+1</sub>)</span>
+      <span>V(k) = max{u(c) + &beta;V(k&prime;)}</span>
+      <span>i<sub>t</sub> = r* + &pi;<sub>t</sub> + 0.5(&pi;<sub>t</sub> &minus; &pi;*) + 0.5(y<sub>t</sub> &minus; y&#772;)</span>
+      <span>E<sub>t</sub>[m<sub>t+1</sub>R<sub>t+1</sub>] = 1</span>
+      <span>&epsilon; = (&part;Q/&part;P)(P/Q)</span>
+      <span>MR = MC</span>
+      <span>&Delta;Y/Y = &minus;c(u &minus; u<sub>n</sub>)</span>
+      <span>&Sigma; &beta;<sup>t</sup>u(c<sub>t</sub>)</span>
+      <span>&part;&#8466;/&part;&lambda; = 0</span>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <!-- ══ HERO ══ EDIT: your name, what you study/do, your city, and what you like building. -->
+  <!-- ══ HERO ══ -->
   <header class="hero">
     <p>
       <span class="me">Nathan Mac Cabe</span> — Economist,
@@ -215,7 +297,6 @@
       and learning in public. I do data stuff.
     </p>
 
-    <!-- EDIT: replace the href values. Delete any line you don't want. -->
     <nav class="hero-links">
       <a href="https://github.com/nmaccabe">GitHub</a>
       <a href="https://linkedin.com/in/nathan-maccabe-351164122">LinkedIn</a>
@@ -236,7 +317,6 @@
       </div>
     </a>
 
-    <!-- EDIT: replace with a real project, or delete this block. -->
     <a class="project" href="https://github.com/nmaccabe/gender-and-unemployment-rates">
       <span class="when">2026</span>
       <div>
@@ -246,7 +326,6 @@
       </div>
     </a>
 
-    <!-- EDIT: replace with a real project, or delete this block. -->
     <a class="project" href="https://github.com/nmaccabe/exploration-in-macroeconomic-modelling">
       <span class="when">2026</span>
       <div>
@@ -257,14 +336,14 @@
     </a>
   </section>
 
-  <!-- ══ ABOUT ══ EDIT: three or four sentences, written like you talk. -->
+  <!-- ══ ABOUT ══ -->
   <section class="prose">
     <div class="label">About</div>
     <p>I like working out, soccer and trail biking.</p>
     <p>When I get an idea in my head, I get to work.</p>
   </section>
 
-  <!-- ══ NOW ══ EDIT: keep this short and current. It's the easiest thing to update. -->
+  <!-- ══ NOW ══ Keep this short and current. It's the easiest thing to update. -->
   <section class="prose">
     <div class="label">Currently</div>
     <ul class="now">
